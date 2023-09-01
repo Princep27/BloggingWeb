@@ -1,0 +1,47 @@
+.post{
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    display: flex;
+    /* background-color: rgb(234, 234, 234);     */
+}
+
+.postInfo{
+    height: 140px;
+    width: 80%;
+    background-color: antiquewhite;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.postInfoTopBar{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.postTitle{
+    font-family: 'Lora', serif;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.postDate{
+    font-family: 'Lora', serif;
+    font-size: medium;
+    font-weight: 600;
+    color: gray;
+}
+
+.postDesc{
+    line-height: 30px;
+    color: rgb(88, 88, 88);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: 'Varela Round', sans-serif;
+}

@@ -1,0 +1,68 @@
+.settingTitle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.settingWrapper{
+    margin-top: 20px;
+}
+
+.settingsUpdateTitle{
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: lightcoral;
+    margin: 10px;
+}
+
+.settingsDeleteTitle{
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: red;
+    margin: 10px;
+    cursor: pointer;
+
+}
+
+.settingsForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+}
+
+.settingsForm > label{
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.settingsForm > input{
+    color: gray;
+    margin: 10px 0px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    outline: none;
+}
+
+.settingInputPassword{
+    -webkit-text-security: disc;
+    text-security: disc;
+}
+
+.settingsSubmit{
+    width: 150px;
+    align-self: center;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: teal;
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.settingsSubmit:disabled{
+    cursor: not-allowed;
+}
