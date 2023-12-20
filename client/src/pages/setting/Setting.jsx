@@ -8,7 +8,6 @@ export default function Setting() {
   const [username,setUsername] = useState("");
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
-
   const [error,setError] = useState(false); 
 
   useEffect(()=>{
@@ -27,14 +26,15 @@ export default function Setting() {
 
     dispatch({type: "UPDATE_START"});
     try{
-      const res = await axios.put("/users/"+user._id,{
-        userId:user._id,
+      const res = await axios.put("/users/",{
+        _id : user._id,
         username,
         email,
         password
       })
-      dispatch({type:"UPDATE_SUCESS",payload:res.data});
+      dispatch({type:"UPDATE_SUCESS",payload:res.data.user});
       alert("SUCCESS");
+      window.location.reload();
     }catch(err){
       console.log(err);
       dispatch({type:"UPDATE_FAILURE"});
@@ -43,11 +43,13 @@ export default function Setting() {
 
   const handleUserAccount = async()=>{
     try{
-        await axios.delete("/users/"+user._id,{
-        data:{
-          userId: user._id
-        }
-      })
+        const res = await axios.delete("/users",{
+          withCredentials: true,
+          data : {
+            "userId" : `${user._id}`
+          }
+        })
+      console.log(res);
       dispatch({type:"LOGOUT"});
       window.location.replace("/");
     }catch(err){

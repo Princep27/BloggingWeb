@@ -18,8 +18,6 @@ export default function Home() {
     fetchPosts(); 
   },[search]);
 
-
-
   return (
     <div className="home">
       <Header/>

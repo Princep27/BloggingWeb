@@ -12,11 +12,9 @@ export default function Write() {
     e.preventDefault();
     try{
       const res = await axios.post("/posts/",{
-        username: user.username,
         title: title,
         desc: desc
       })
-
       window.location.replace("/post/"+res.data._id);
     }catch(err){
     }

@@ -1,12 +1,22 @@
 import React, { useContext } from 'react';
 import "./topbar.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../context/Context';
+import axios from 'axios';
 
 export default function TopBar() {
-  const {dispatch,user} = useContext(Context);
-  const handleLogout = ()=>{
-    dispatch({type: "LOGOUT"})
+    const navigate = useNavigate();
+   
+    const {dispatch,user} = useContext(Context);
+    const handleLogout = ()=>{
+    const logout = async ()=>{
+        const res = await axios.post("/users/logout");
+        if(res.data.success){
+            console.log(res.data.message);
+            dispatch({type:"LOGOUT"})
+        }
+    }
+    logout();
   };
   
   return (

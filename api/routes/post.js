@@ -1,9 +1,35 @@
 const router = require("express").Router();
+const { isAuthenticated } = require("../middleware/auth");
 const Post = require("../models/Post");
 
-//CREAT POST
-router.post("/",async (req,res) => {
-    const newPost = new Post(req.body);
+//get all posts
+router.get("/",async (req,res)=>{
+    const userName = req.query.user;
+    try{
+        let posts;
+        if(userName){
+            try{
+                posts = await Post.find({username:userName});
+            }catch(e){
+                res.send(e);
+            }
+        }else{
+            try{
+                posts = await Post.find();
+            }catch(e){
+                res.send(e);
+            }
+        }
+        res.status(200).json(posts);
+    }catch(err){ 
+        res.status(500).json(err);
+    }
+});
+
+//CREATE POST
+router.post("/",isAuthenticated,async (req,res) => {
+    req.body.username = req.user.username;
+    let newPost = new Post(req.body);
     try{
         const savedPost = await newPost.save();
         res.status(200).json(savedPost);
@@ -13,10 +39,11 @@ router.post("/",async (req,res) => {
 });
 
 //UPDATE POST
-router.put("/:id",async(req,res)=>{
+router.put("/:id",isAuthenticated,async(req,res)=>{
     try{
         const post = await Post.findById(req.params.id);
-        if(post.username === req.body.username){
+        if(post.username === req.user.username){
+            req.body.username = req.user.username;
             try{
                 const updatedPost = await Post.findByIdAndUpdate(
                     req.params.id,
@@ -38,10 +65,10 @@ router.put("/:id",async(req,res)=>{
 });
 
 //DELETE POST
-router.delete("/:id",async (req,res) =>{
+router.delete("/:id",isAuthenticated,async (req,res) =>{
     try{
         const post = await  Post.findById(req.params.id);
-        if(post.username === req.body.username){
+        if(post.username === req.user.username){
             try{
                 await post.deleteOne();
                 res.status(200).json("post deleted"); 
@@ -68,23 +95,6 @@ router.get("/:id",async (req,res)=>{
             res.status(400).json("post not found");
         }
     }catch(err){
-        res.status(500).json(err);
-    }
-});
-
-//get all posts
-router.get("/",async (req,res)=>{
-    const userName = req.query.user;
-    
-    try{
-        let posts;
-        if(userName){
-            posts = await Post.find({username:userName});
-        }else{
-            posts = await Post.find();
-        }
-        res.status(200).json(posts);
-    }catch(err){ 
         res.status(500).json(err);
     }
 });

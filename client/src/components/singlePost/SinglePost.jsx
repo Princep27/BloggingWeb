@@ -27,7 +27,7 @@ export default function SinglePost() {
         try{
             await axios.delete("/posts/"+post._id,{
                 data:{
-                    username: user.username
+                    username: user.username,
                 }
             })
             window.location.replace("/");
@@ -38,16 +38,14 @@ export default function SinglePost() {
     const handleUpdate = async ()=>{
         try{
             await axios.put("/posts/"+post._id,{
-               username: user.username,
                title: updateTitle,
                desc: updateDesc
             })
             window.location.reload(); 
         }catch(err){
+            console.log(err);
         }
     }
-
-
 
   return (
     <div className='singlePost'>

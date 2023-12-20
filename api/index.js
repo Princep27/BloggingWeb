@@ -2,18 +2,18 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const postRoute = require("./routes/post");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 dotenv.config();
 app.use(express.json());
-app.use(cors());
-app.get("/",(req,res) => {
-  res.setHeader("Access-Control-Allow-Credentials","true")
-  res.send("API is running");
-});
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000"]
+  }));  
+app.use(cookieParser());
 
 mongoose
     .connect(`${process.env.MONGO_URL}`)
@@ -22,7 +22,6 @@ mongoose
 );
 
 
-app.use("/api/auth/",authRoute);
 app.use("/api/users/",userRoute);
 app.use("/api/posts/",postRoute);
  

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import TopBar from "./components/topbar/TopBar"
 import Home from "./pages/home/Home";
@@ -8,9 +8,25 @@ import Setting from "./pages/setting/Setting";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import { Context } from "./context/Context";
+import axios from "axios";
 
 function App() {
-  const {user} = useContext(Context);
+  const {user,dispatch} = useContext(Context);
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+      try{
+        const response = await axios.get('/users/getme', {
+          withCredentials: true,
+        });
+        if(response.data.success) dispatch({type:"LOGIN_SUCESS",payload:response.data.user});
+      }catch(e){
+        console.log(e);
+      }
+    }
+
+    fetchData();
+  },[]);
 
   return (
     <Router>
@@ -25,6 +41,7 @@ function App() {
        </Routes>
     </Router>
   );
+
 }
 
 export default App;
